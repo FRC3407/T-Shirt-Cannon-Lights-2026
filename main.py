@@ -6,6 +6,7 @@ from animation_test import GradientAnimation
 from animation_pulse import PulseAnimation
 from animation_rainbow import RainbowAnimation
 from animation_greenwhite import GreenWhiteAnimation
+from animation_longstrip import LongStripAnimation
 from time import sleep
 from colors import *
 from pixelstrip import PixelStrip, MATRIX_BOTTOM, MATRIX_TOP, MATRIX_LEFT, MATRIX_RIGHT, MATRIX_COLUMN_MAJOR, MATRIX_ZIGZAG
@@ -19,13 +20,17 @@ strip = [
     PixelStrip(board.GP12, n=24, bpp=4, pixel_order="GRB", brightness=BRIGHTNESS, options={MATRIX_TOP, MATRIX_LEFT, MATRIX_COLUMN_MAJOR, MATRIX_ZIGZAG}),
     PixelStrip(board.GP14, n=24, bpp=4, pixel_order="GRB", brightness=BRIGHTNESS, options={MATRIX_TOP, MATRIX_LEFT, MATRIX_COLUMN_MAJOR, MATRIX_ZIGZAG}),
     PixelStrip(board.GP16, n=24, bpp=4, pixel_order="GRB", brightness=BRIGHTNESS, options={MATRIX_TOP, MATRIX_LEFT, MATRIX_COLUMN_MAJOR, MATRIX_ZIGZAG}),
+    PixelStrip(board.GP18, n=81, bpp=4, pixel_order="GRB", brightness=BRIGHTNESS, options={MATRIX_TOP, MATRIX_LEFT, MATRIX_COLUMN_MAJOR, MATRIX_ZIGZAG}),
+    PixelStrip(board.GP19, n=81, bpp=4, pixel_order="GRB", brightness=BRIGHTNESS, options={MATRIX_TOP, MATRIX_LEFT, MATRIX_COLUMN_MAJOR, MATRIX_ZIGZAG}),
 ]
 
 animation = [
-    GradientAnimation(),
     GreenWhiteAnimation(),
-    RainbowAnimation(),
-    GradientAnimation(),
+    GreenWhiteAnimation(),
+    GreenWhiteAnimation(),
+    GreenWhiteAnimation(),
+    LongStripAnimation(),
+    LongStripAnimation()
 ]
 
 i2c = None
