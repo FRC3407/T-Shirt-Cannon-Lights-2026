@@ -1,0 +1,66 @@
+import pixelstrip
+import random
+import math
+import board
+from colors import *
+
+width = 8
+height = 8
+
+
+class RainbowAnimation(pixelstrip.Animation):
+    def __init__(self):
+        self.t = 0
+        self.g = 0
+        self.lightcount = 24
+        self.sm = 1
+        self.sml = 1
+        pixelstrip.Animation.__init__(self)
+
+    def reset(self, matrix):
+        self.timeout = 0.1
+        matrix.clear()
+
+    def draw(self, matrix, _delta_time):
+        d = 10
+        h=self.t*math.pi*0.1
+        h = 120
+        self.g += 1
+        if (self.g > 100):
+            self.g = 0
+            self.sml = 1-self.sml
+        self.sm += (self.sml - self.sm)*0.1
+        for i in range(self.lightcount):
+            # matrix[i] = self.hsv_to_rgb(self.t+i*d,1,1)
+            matrix[i] = self.hsv_to_rgb(h,self.sm * (math.sin(i+self.t*0.05)*0.1+0.85),math.sin(i+self.t*0.05)*0.5+0.7)
+        matrix.show()
+        self.t += 5
+
+    def hsv_to_rgb(self,h,s,v):
+        h = h - math.floor(h/360)*360
+        s = min(max(s,0),1)
+        v = min(max(v,0),1)   
+        c = v * s
+        x = c * (1-abs(math.fmod((h/60),2)-1))
+        m = v - c
+        if 0<=h<60:
+            rgb = (c,x,0)
+        if 60<=h<120:
+            rgb = (x,c,0)
+        if 120<=h<180:
+            rgb = (0,c,x)
+        if 180<=h<240:
+            rgb = (0,x,c)
+        if 240<=h<300:
+            rgb = (x,0,c)
+        if 300<=h<360:
+            rgb = (c,0,x)
+
+        final = ((rgb[0]+m)*255,(rgb[1]+m)*255,(rgb[2]+m)*255)
+        return final
+if __name__ == "__main__": 
+    matrix = pixelstrip.PixelStrip(board.GP15, width=width, height=height, bpp=4, pixel_order=pixelstrip.GRB, options={pixelstrip.MATRIX_COLUMN_MAJOR,pixelstrip.MATRIX_ZIGZAG},
+                                   brightness=0.1)
+    matrix.animation = RainbowAnimation()
+    while True:
+        matrix.draw()
